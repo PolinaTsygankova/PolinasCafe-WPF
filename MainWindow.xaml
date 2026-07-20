@@ -5,8 +5,204 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PolinasCafeWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Polina'sCafe" Height="450" Width="800">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#F7F0E6" Offset="0.0"/>
+            <GradientStop Color="#EADBC8" Offset="0.5"/>
+            <GradientStop Color="#DAC0A3" Offset="1.0"/>
+        </LinearGradientBrush>
+    </Window.Background>
 
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#3C2A21" CornerRadius="12" Padding="15" Margin="0,0,0,15">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="3" Opacity="0.3" Color="#000000"/>
+            </Border.Effect>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="☕ " FontSize="26" VerticalAlignment="Center"/>
+                <TextBlock Text="Polina's Cafe" FontSize="26" FontWeight="Bold" Foreground="#F7E7CE" VerticalAlignment="Center" FontFamily="Georgia"/>
+                <TextBlock Text="  |  Billing &amp; Management" FontSize="14" Foreground="#D5B9B2" VerticalAlignment="Center" Margin="10,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="0,0,5,0">
+
+                    <Border Background="#FFFDF9" CornerRadius="12" Padding="15" Margin="0,0,0,12" BorderBrush="#D0C0B0" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.1" Color="#3C2A21"/>
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="1. Add Item (Max 5)" FontSize="15" FontWeight="Bold" Foreground="#3C2A21" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="Description (3-20 chars):" Foreground="#555" FontSize="12" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtDescription" Height="30" VerticalContentAlignment="Center" Margin="0,0,0,8" FontSize="13" Padding="5,0" Background="#FAFAFA" BorderBrush="#CCC"/>
+
+                            <TextBlock Text="Price ($):" Foreground="#555" FontSize="12" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtPrice" Height="30" VerticalContentAlignment="Center" Margin="0,0,0,12" FontSize="13" Padding="5,0" Background="#FAFAFA" BorderBrush="#CCC"/>
+
+                            <Button x:Name="btnAddItem" Content="+ Add Dish" Height="34" Background="#6F4E37" Foreground="White" FontWeight="Bold" FontSize="13" Click="BtnAddItem_Click" Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="6"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#FFFDF9" CornerRadius="12" Padding="15" Margin="0,0,0,12" BorderBrush="#D0C0B0" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.1" Color="#3C2A21"/>
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="2. Remove Item" FontSize="15" FontWeight="Bold" Foreground="#3C2A21" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="Select item to remove:" Foreground="#555" FontSize="12" Margin="0,0,0,5"/>
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="cmbRemoveIndex" Height="30" VerticalContentAlignment="Center" Grid.Column="0" Background="#FAFAFA"/>
+                                <Button x:Name="btnRemoveItem" Content="Remove" Grid.Column="2" Width="100" Height="30" Background="#A04036" Foreground="White" FontWeight="Bold" Click="BtnRemoveItem_Click" Cursor="Hand">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="6"/>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#FFFDF9" CornerRadius="12" Padding="15" Margin="0,0,0,12" BorderBrush="#D0C0B0" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.1" Color="#3C2A21"/>
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="3. Add Tip" FontSize="15" FontWeight="Bold" Foreground="#3C2A21" Margin="0,0,0,10"/>
+
+                            <RadioButton x:Name="rbTipPercentage" Content="Tip Percentage (%)" GroupName="TipGroup" IsChecked="True" Checked="TipOption_Changed" Margin="0,0,0,5" Foreground="#444"/>
+                            <RadioButton x:Name="rbTipAmount" Content="Tip Fixed Amount ($)" GroupName="TipGroup" Checked="TipOption_Changed" Margin="0,0,0,5" Foreground="#444"/>
+                            <RadioButton x:Name="rbNoTip" Content="No Tip" GroupName="TipGroup" Checked="TipOption_Changed" Margin="0,0,0,8" Foreground="#444"/>
+
+                            <TextBlock x:Name="lblTipValue" Text="Enter Tip Percentage:" Foreground="#555" FontSize="12" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtTipValue" Height="30" VerticalContentAlignment="Center" Margin="0,0,0,10" Text="0" FontSize="13" Padding="5,0" Background="#FAFAFA" BorderBrush="#CCC"/>
+
+                            <Button x:Name="btnApplyTip" Content="Apply Tip" Height="32" Background="#C86D51" Foreground="White" FontWeight="Bold" Click="BtnApplyTip_Click" Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="6"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#FFFDF9" CornerRadius="12" Padding="15" Margin="0,0,0,10" BorderBrush="#D0C0B0" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.1" Color="#3C2A21"/>
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="File &amp; System" FontSize="15" FontWeight="Bold" Foreground="#3C2A21" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="Filename (1-10 chars):" Foreground="#555" FontSize="12" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtFileName" Height="30" VerticalContentAlignment="Center" Text="table1" Margin="0,0,0,10" FontSize="13" Padding="5,0" Background="#FAFAFA" BorderBrush="#CCC"/>
+
+                            <UniformGrid Columns="2" Margin="0,0,0,10">
+                                <Button x:Name="btnSaveFile" Content="💾 Save File" Height="32" Margin="0,0,4,0" Background="#4A3E3D" Foreground="White" FontWeight="Bold" Click="BtnSaveFile_Click" Cursor="Hand">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="6"/>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
+                                <Button x:Name="btnLoadFile" Content="📂 Load File" Height="32" Margin="4,0,0,0" Background="#8C7A6B" Foreground="White" FontWeight="Bold" Click="BtnLoadFile_Click" Cursor="Hand">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="6"/>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
+                            </UniformGrid>
+
+                            <Button x:Name="btnClearAll" Content="🧹 Clear All Bill" Height="32" Background="#D4AC0D" Foreground="#3C2A21" FontWeight="Bold" Click="BtnClearAll_Click" Cursor="Hand">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="6"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border Grid.Column="2" Background="#FFFDF9" CornerRadius="12" Padding="20" BorderBrush="#D0C0B0" BorderThickness="1">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="12" ShadowDepth="4" Opacity="0.15" Color="#3C2A21"/>
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                        <TextBlock Text="Guest Receipt" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#3C2A21" FontFamily="Georgia"/>
+                        <TextBlock Text="=========================================" HorizontalAlignment="Center" Foreground="#A97155" FontSize="11"/>
+                    </StackPanel>
+
+                    <ListView x:Name="lstBillItems" Grid.Row="1" BorderThickness="1" BorderBrush="#EADBC8" Background="#FAFAFA">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="#" Width="35" DisplayMemberBinding="{Binding ItemNo}"/>
+                                <GridViewColumn Header="Description" Width="220" DisplayMemberBinding="{Binding Description}"/>
+                                <GridViewColumn Header="Price" Width="100" DisplayMemberBinding="{Binding PriceFormatted}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Border Grid.Row="2" Margin="0,15,0,0" Padding="12" Background="#F7F0E6" CornerRadius="8" BorderBrush="#DAC0A3" BorderThickness="1">
+                        <StackPanel>
+                            <Grid Margin="0,3">
+                                <TextBlock Text="Net Total:" FontSize="13" Foreground="#555" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="lblNetTotal" Text="$0.00" FontSize="13" HorizontalAlignment="Right" Foreground="#3C2A21" FontWeight="SemiBold"/>
+                            </Grid>
+                            <Grid Margin="0,3">
+                                <TextBlock Text="Tip Amount:" FontSize="13" Foreground="#555"/>
+                                <TextBlock x:Name="lblTipAmount" Text="$0.00" FontSize="13" HorizontalAlignment="Right" Foreground="#3C2A21"/>
+                            </Grid>
+                            <Grid Margin="0,3">
+                                <TextBlock Text="GST Amount (5%):" FontSize="13" Foreground="#555"/>
+                                <TextBlock x:Name="lblGstAmount" Text="$0.00" FontSize="13" HorizontalAlignment="Right" Foreground="#3C2A21"/>
+                            </Grid>
+                            <Separator Margin="0,8" Background="#DAC0A3"/>
+                            <Grid Margin="0,3">
+                                <TextBlock Text="Total Amount:" FontSize="17" FontWeight="Bold" Foreground="#6F4E37"/>
+                                <TextBlock x:Name="lblTotalAmount" Text="$0.00" FontSize="17" FontWeight="Bold" HorizontalAlignment="Right" Foreground="#6F4E37"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
